@@ -1,4 +1,5 @@
 ## The C Programming Language
-This folder contains my attempted solutions to the following exercises:
+My attempt at the following exercises:
 
 - 1-19
+- 2-1
