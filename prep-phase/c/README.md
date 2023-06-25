@@ -5,3 +5,9 @@ My attempt at the following exercises:
 - 2-1
 - 3-3
 - 4-1
+
+I have also included my `ls-clone` completion project here:
+
+> Implement a minimal clone of the `ls` program.
+
+- `ls-clone.c`
