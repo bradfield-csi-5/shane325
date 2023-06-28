@@ -5,6 +5,7 @@ My attempt at the following exercises:
 - 2-1
 - 3-3
 - 4-1
+- 7-1
 
 I have also included my `ls-clone` completion project here:
 
