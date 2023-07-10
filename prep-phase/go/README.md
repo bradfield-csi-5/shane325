@@ -2,3 +2,4 @@
 My attempt at the following exercises:
 
 - 1-7
+- 3-1    
