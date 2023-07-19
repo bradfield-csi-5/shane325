@@ -7,6 +7,7 @@ This chapter is a tour of the basic components of Go.
 #### 1.1 Hello, World
 - `C` is one of the most direct influences on `Go`.
 
+```go
 package main
 
 import "fmt"
@@ -14,4 +15,4 @@ import "fmt"
 func main() {
     fmt.Println("Hello, World")
 }
-``````
+```
