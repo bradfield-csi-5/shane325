@@ -46,3 +46,36 @@ func main() {
     fmt.Println(s)
 }
 ```
+
+- The `for` loop is the only loop statement in Go.
+- You can also use `for` to iterate over a `range` of values:
+
+```go
+package main
+
+import (
+    "os"
+    "fmt"
+)
+
+func main() {
+    s, sep := "", ""
+    for _, arg := range os.Args[1:] {
+        s += sep + arg
+        sep = " "
+    }
+    fmt.Println(s)
+}
+```
+
+- The underscore tells Go that we don't want to use this value.
+- There are multiple ways we can declare a variable:
+
+```go
+s := ""
+var s string
+var s string = ""
+var s = ""
+```
+
+- In practice, you should use one of the first two methods of declaring variables. It's worth noting that the first, shorthand method, only works inside of functions. It does not work at the package-level.
