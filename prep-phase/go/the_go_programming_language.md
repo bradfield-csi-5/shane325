@@ -16,3 +16,8 @@ func main() {
     fmt.Println("Hello, World")
 }
 ```
+- The Go toolchain is accessed via a single command called `go` that has a number of subcommands.
+```bash
+$ go run helloworld.go    # Compile, link, and run a go program
+$ go build helloworld.go  # Compile a go program
+```
