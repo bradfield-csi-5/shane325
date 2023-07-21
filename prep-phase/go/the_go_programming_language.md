@@ -79,3 +79,32 @@ var s = ""
 ```
 
 - In practice, you should use one of the first two methods of declaring variables. It's worth noting that the first, shorthand method, only works inside of functions. It does not work at the package-level.
+
+#### 1.3 Finding Duplicate Lines
+- This version of a program called `dup` prints each line that appears more than once in the standard input.
+- It introduces the `if` statement, the `map` data type, and the `bufio` package.
+
+```go
+// Dup 1
+package main
+
+import (
+    "bufio"
+    "fmt"
+    "os"
+)
+
+func main() {
+    counts := make(map[string]int)
+    input := bufio.NewScanner(os.Stdin)
+    for input.Scan() {
+        counts[input.Text()]++
+    }
+
+    for line, n := range counts {
+        if n > 1 {
+            fmt.Printf("%d\t%s\n", n, line)
+        }
+    }
+}
+```
