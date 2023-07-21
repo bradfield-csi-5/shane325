@@ -1,3 +1,5 @@
+[Home](https://github.com/bradfield-csi-5/shane325/blob/main/prep-phase/go/notes/the_go_programming_language.md)
+
 ### 1. Tutorial
 This chapter is a tour of the basic components of Go.
 
