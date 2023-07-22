@@ -58,6 +58,16 @@ fmt.Println(f() == f())     // "false"
 ```
 
 #### 2.3.3 The `new` Function
+- Another way to create a variable is to use the built in `new` function.
+- The expression `new(t)` creates an _unnamed variable_ of type T, initializes it to the zero value of type T, and returns its address, which is a value of type `*T`.
+
+```go
+p := new(int)
+fmt.Println(*p)     // "0"
+fmt.Println(p)      // Prints the address of the variable
+*p = 2
+fmt.Println(*p)     // "2"
+```
 
 #### 2.3.4 Lifetime of Variables
 
