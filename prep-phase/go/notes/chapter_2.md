@@ -27,6 +27,35 @@ name := "shane"             // a string
 ```
 
 #### 2.3.2 Pointers
+- A _pointer_ value is the _address_ of a variable.
+- With a pointer, we can read or update the value of a variable _indirectly_, without using or even knowing the name of the variable, if indeed it has a name.
+- If we have a variable `var x int`, the expression `&x` yields the address of `x`. This is a pointer to an integer variable (`*int`). If this value (`&x`) is called `p`, we say "p points to x", or "p contains the address of x".
+- The variable to which p points is written `*p`. The expression `*p` yields the value of that variable (`x`).
+
+```go
+x := 1
+p := &x         // p, of type *int, points to x
+fmt.Println(*p) // "1"
+*p = 2
+fmt.Println(x)  // "2"
+```
+
+- Each component of a variable of aggregate type - a field of a struct or an element of an array - is also a variable and thus has an address too.
+
+```go
+var p = f()
+
+func f() *int {
+    v := 1
+    return &v
+}
+```
+
+- each call of `f` returns a distinct value.
+
+```go
+fmt.Println(f() == f())     // "false"
+```
 
 #### 2.3.3 The `new` Function
 
