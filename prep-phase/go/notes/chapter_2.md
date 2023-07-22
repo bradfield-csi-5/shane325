@@ -70,19 +70,97 @@ fmt.Println(*p)     // "2"
 ```
 
 #### 2.3.4 Lifetime of Variables
+- The lifetime of a package level variable is the entire execution of the program.
+- Local variables have dynamic lifetimes: the variable lives on until it becomes unreachable, at which point its storage may be recycled.
 
 #### 2.4 Assignments
+```go
+x = 1                       // named variable
+*p = true                   // indirect variable
+person.name                 // struct field
+count[x] = count[x] * scale // array of slice or may element
+```
+
+- Each of the arithmetic and bitwise operators has a corresponding _assignment operator_ so we can do:
+
+```go
+count[x] *= scale
+```
+
+- We can increment and decrement with `++` and `--`.
 
 #### 2.4.1 Tuple Assignment
+- _tuple assignment_ allows several variables to be assigned at once.
+
+    ```go
+x, y = y, x
+a[i], a[j] = a[j], a[i] // swap values
+    ```
+
+- All of the right hand side expressions are evaluated before any of the variables are updated.
+
+```go
+// Computing the nth Fibonacci number iteratively
+func fib(n int) int {
+    x, y := 0, 1
+    for i := 0; i < n; i++ {
+        x, y = y, x+y
+    }
+    return x
+}
+```
+
+- Some expressions produce several values (such as a function call with multiple results).
+
+```go
+f, err = os.Open("foo.txt")     // function call returns two values
+```
 
 #### 2.4.2 Assignability
+- An assignment, explicit or implicit, is always legal if the left-hand side (the variable) and the right-hand side (the value) have the same type.
 
 #### 2.5 Type Declarations
+- A type decalaration defines a new _named_ type that has the same underlying type as an existing type.
+- `type _name_ _underlying-type_`.
+
+```go
+type Celsius float64
+type Fahrenheit float64
+```
+
+- We just defined two names types. The underlying types are `float64`.
+- For every type T, there is a corresponding conversion operation T(x) that converts the value x to type T.
+- A conversion of one type to another is allowed if both have the same underlying type.
 
 #### 2.6 Packages and Files
+- Packages in Go server the same purposes as libraries or modules in other languages.
+- In Go, a simple rule governs which identifiers are exported and which are not: exported identifiers start with an upper-case letter.
+- Each file starts with a package delcaration that defines the package name: `package tempconv`.
+- Package level names like types and constants declared in one file of a package are visible to all the other files of the package, as if the source code were all in a single file.
 
 #### 2.6.1 Imports
+```go
+package main
+
+import (
+    "fmt"
+    "os"
+    "gopl.io/ch2/tempconv"  // import path
+)
+
+func main() {
+    f := tempconv.Fahrenheit(100.14)    // Calling a method from our imported package
+}
+```
 
 #### 2.6.2 Package Initialization
+- Package initialization starts by initializing package-level variables in the order in which they are declared, except that dependencies are resolved first.
+- One package is initialized at a time, in the order of imports in the program, dependencies first.
+- A package `p` importing `q` can be sure that `q` is fully initialized before `p`'s initialization begins.
+- We also have an `init` function that can pre-compute before our main program runs.
 
 #### 2.7 Scope
+- Don't confuse scopr with liftime.
+- The scope of a declaration is a region of the program text; it is a compile-time property.
+- The lifetime of a variable is the range of time during execution when the variable can be referred to by other parts of the program; it is a run-time property.
+- A declarations lexical block determines its scope.
