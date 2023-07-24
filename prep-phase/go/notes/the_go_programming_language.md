@@ -4,3 +4,4 @@ Go was conceived in 2007 at Google. The goals of the language and it's tools wer
 - [Chapter 1 - Tutorial](https://github.com/bradfield-csi-5/shane325/blob/main/prep-phase/go/notes/chapter_1.md)
 - [Chapter 2 - Program Structure](https://github.com/bradfield-csi-5/shane325/blob/main/prep-phase/go/notes/chapter_2.md)
 - [Chapter 3 - Basic Data Types](https://github.com/bradfield-csi-5/shane325/blob/main/prep-phase/go/notes/chapter_3.md)
+- [Chapter 4 - Composite Types](https://github.com/bradfield-csi-5/shane325/blob/main/prep-phase/go/notes/chapter_4.md)
