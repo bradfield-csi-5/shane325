@@ -67,19 +67,92 @@ make([]T, len, cap)
 ```
 
 #### 4.2.1 The append Function
--
+- The built-in `append` function appends items to slice.
+
+```go
+var runes []rune
+for _, r := range "Hello, World" {
+    runes = append(runes, r)
+}
+fmt.Printf("%q\n", runes)   // "['H', 'e', 'l', 'l', 'o', ','...]"
+```
 
 #### 4.2.2 In-Place Slice Technique
+- There are a few other example of slice techniques in the textbook.
 
 #### 4.3 Maps
+- In Go, a _map_ is a reference to a hash table, and a map type is written `map[K]V`, where `K` and `V` are the types of its keys and values.
+- The build in function `make` can be used to create a map:
+
+```go
+ages := make(map[string]int)    // Creates a map with string keys and int values
+// We can also use a _map literal_ to create a new map populated with some initial data
+ages := map[string]int{
+    "alice": 14,
+    "charlie": 47,
+}
+// An alternative expression for a new empty map is
+ages := map[string]int{}
+```
 
 #### 4.4 Structs
+- A struct is an aggregate data type that groups together zero or more named values of arbitrary types as a single entity.
+- Each value is called a field.
+
+```go
+type Employee struct {
+    ID          int
+    Name        string
+    Address     string
+    DoB         time.Time
+    Position    string
+    Salary      int
+    ManagerID   int
+}
+
+var dilbert Employee
+// Fields are accessed with dot notation
+dilbert.Salary -= 5000
+// Also works with a pointer to a struct
+var employeeOfTheMonth *Employee = &dilbert
+employeeOfTheMonth.Position += " (proactive team player)"
+```
 
 #### 4.4.1 Struct Literals
+- A value of struct type can be written using a _struct literal_ that specifies values for its fields.
+
+```go
+type Point struct{ X, Y int }
+p := Point{1, 2}
+```
+
+- More often, a second form of _struct literals_ is used.
+
+```go
+anim := gif.GIF{LoopCount: nframes}
+```
+
+- If a field is ommitted, it is set to the zero value for its type. Because names are provided, the order of fields doesn't matter.
 
 #### 4.4.2 Comparing Structs
+- If all the fields of struct are comparable, the struct itself is comparable.
+- Comparable struct types, like other comparable types, may be used as the key type of a map.
 
 #### 4.4.3 Struct Embedding and Anonymous Fields
+- Structs can be embedded as fields in other structs.
+- Go lets us declare a field with a type but no name; such fields are called _anonymous fields_.
+
+```go
+type Circle struct {
+    Point
+    Radius int
+}
+
+type Wheel struct {
+    Circle
+    Spokes int
+}
+```
 
 #### 4.5 JSON
 
