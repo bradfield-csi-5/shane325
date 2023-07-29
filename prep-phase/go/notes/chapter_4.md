@@ -155,5 +155,8 @@ type Wheel struct {
 ```
 
 #### 4.5 JSON
+- This section gives an overview of the most important parts of the _encoding/json_ package.
+- Convering a Go data structure to JSON is called _marshalling_. Marshalling is done by `json.Marshal`.
+- The inverse of _marshalling_, decoding JSON and populating a Go data structure, is called _unmarshalling_, and it is done by `json.Unmarshal`.
 
 #### 4.6 Text and HTML Templates
