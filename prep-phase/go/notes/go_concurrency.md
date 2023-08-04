@@ -1,4 +1,4 @@
-## Concurrency in Go
+### Concurrency in Go
 
 - A big selling point of Go is that it supports concurrency.
 - It's worth noting that concurrency is not the same as parallelism.
