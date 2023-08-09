@@ -67,3 +67,22 @@ The first 5 bytes converted to binary are:
 - -128 is the most signifigant bit in an 8 bit two's complement number.
 
 #### 2.5 Advanced: Integer overflow detection
+- We need a way to detect overflow in two's complement (based solely on bit patterns).
+- The way we do that is we look at the _carry out_ value (is there an extra bit carried out after our arithmetic?) and we look at the _carry in_ value (did we carry in a bit to the most significant place?) and we `XOR` them.
+- The operation to determine integer overflow for two's compliment is `XOR(carry_in, carry_out)`.
+- As a reminder, `XOR` returns true if the number of true values is odd.
+
+**XOR example**
+| A | B | A XOR B |
+|---|---|---------|
+| 0 | 0 | 0       |
+| 0 | 1 | 1       |
+| 1 | 0 | 1       |
+| 1 | 1 | 0       |
+
+#### 3 Byte ordering
+- For the decimal number 123:
+- `123` is big endian ordering.
+- `321` is little endian ordering.
+- Ordering, typically, doesn't impact the individual bit order because the smallest unit of data that we retrieve from RAM is a byte (8 bits).
+- But if we have a _multi-byte_ value, we need to decide whether the highest order bytes should come first (big endian) or last (little endian).
