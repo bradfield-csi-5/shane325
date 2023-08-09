@@ -52,6 +52,8 @@ The first 5 bytes converted to binary are:
 - `-60`
 
 ### 2.4 Addition of two's complement signed integers
+```
 01111111 (127)
 10000000 (-128)
 11111111 (-1)
+```
