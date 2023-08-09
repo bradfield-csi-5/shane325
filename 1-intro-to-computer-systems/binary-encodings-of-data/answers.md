@@ -2,7 +2,7 @@
 
 Here are my answers to some of the prework for this class.
 
-#### 1.1 Simple converion
+#### 1.1 Simple conversion
 - `0x9`
 - `0x88`
 - `0xf7`
@@ -23,6 +23,7 @@ The first 5 bytes converted to binary are:
 - `0b01101111`
 
 ### 2.1 Integers basic conversion
+
 - `0b100`
 - `0b1000001`
 - `0b1101001`
