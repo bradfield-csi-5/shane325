@@ -35,9 +35,12 @@ The first 5 bytes converted to binary are:
 - `85`
 
 ### 2.2 Unsigned binary addition
+```
 11111111
 00001101
+--------
 00001100 (12)
+```
 
 - We have demonstrated integer overflow.
 
@@ -55,5 +58,13 @@ The first 5 bytes converted to binary are:
 ```
 01111111 (127)
 10000000 (-128)
+--------
 11111111 (-1)
 ```
+
+- To negate a number in two's complement you just flip the bits and add one.
+- To substract you negate the second argument then add it to the first.
+- -128 is the most signifigant bit in an 8 bit two's complement number.
+
+### 2.5 Advanced: Integer overflow detection
+-
