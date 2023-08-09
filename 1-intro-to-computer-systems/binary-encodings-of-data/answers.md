@@ -36,7 +36,6 @@ The first 5 bytes converted to binary are:
 ### 2.2 Unsigned binary addition
 11111111
 00001101
---------
 00001100 (12)
 
 - We have demonstrated integer overflow.
@@ -54,5 +53,4 @@ The first 5 bytes converted to binary are:
 ### 2.4 Addition of two's complement signed integers
 01111111 (127)
 10000000 (-128)
---------
 11111111 (-1)
