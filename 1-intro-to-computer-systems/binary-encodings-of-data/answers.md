@@ -86,3 +86,46 @@ The first 5 bytes converted to binary are:
 - `321` is little endian ordering.
 - Ordering, typically, doesn't impact the individual bit order because the smallest unit of data that we retrieve from RAM is a byte (8 bits).
 - But if we have a _multi-byte_ value, we need to decide whether the highest order bytes should come first (big endian) or last (little endian).
+
+#### 3.1 It's over 9000!
+- Converting the value `9001` to binary we can see that it's encoded as big endian in our file.
+
+#### 3.2 TCP
+- Uses big endian byte ordering, like most network protocols.
+- Sequence number: 1142846312
+- Ack number: 4025655458
+- Source port: 44800
+- Destination port: 48134
+
+#### 3.3 Bonus: Byte ordering and integer encoding in bitmaps
+- `BM` format.
+- Width: 24.
+- Height: 48.
+- Bitmap image data starts at `0x8a`.
+- All white and all red.
+
+#### 4 IEEE Floating Point
+- A format used to represent numbers ranging from the unimaginably subatomic to well beyond astronomical.
+- It borrows extensively from the idea of scientific notation.
+- Floating point is scientific notation in base 2.
+
+#### 4.1 Deconstruction
+- Sign: 0
+- Exponent: 10000100
+- Mantissa: 01010100000000000000000
+- Value: 42.5
+
+- The smallest change is achieved by flipping the least significant bit of the mantessa to 1.
+
+- As the size of the number increases, the precision decreases. We lose precision with higher numbers.
+
+#### 5.1 Snowman
+- 3 bytes total.
+
+#### 5.2 Hello again hellohex
+- `hello`.
+- This file is UTF-8 encoded.
+
+#### 5.3 Bonus: Ding ding ding!
+- `man ascii` to find the value of the bell character (7 or 0x07).
+- `echo '070707' | xxd -r -p`.
