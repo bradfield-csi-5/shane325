@@ -19,13 +19,13 @@ func main() {
     fmt.Println()
 
     // Call our vm.
-    vcpu(&byteArray)
+    vcpu(byteArray)
 
     fmt.Println("Memory after:")
     fmt.Println(byteArray)
 }
 
-func vcpu(memory *[]byte) {
+func vcpu(memory []byte) {
     // Define an array of registers.
     // Program counter and two general purpose registers (all initially set to zero).
     registers := []byte{0, 0, 0}
@@ -37,7 +37,7 @@ func vcpu(memory *[]byte) {
     for registers[0] < 255 {
         // Fetch.
         pc := registers[0]
-        value := (*memory)[pc]
+        value := memory[pc]
 
         // Decode and execute.
         if value == 255 {
@@ -45,13 +45,13 @@ func vcpu(memory *[]byte) {
         } else {
             switch value {
                 case 1:
-                load(memory, &registers, (*memory)[pc+1], (*memory)[pc+2])
+                load(memory, registers, memory[pc+1], memory[pc+2])
                 case 2:
-                store(memory, &registers, (*memory)[pc+1], (*memory)[pc+2])
+                store(memory, registers, memory[pc+1], memory[pc+2])
                 case 3:
-                add(memory, &registers, (*memory)[pc+1], (*memory)[pc+2])
+                add(memory, registers, memory[pc+1], memory[pc+2])
                 case 4:
-                sub(memory, &registers, (*memory)[pc+1], (*memory)[pc+2])
+                sub(memory, registers, memory[pc+1], memory[pc+2])
                 default:
                 fmt.Println("No valid instruction found!\n")
             }
@@ -65,7 +65,7 @@ func vcpu(memory *[]byte) {
 /**
  * Load value at given address (`data`) into register (`reg`)
  */
-func load(memory *[]byte, r *[]byte, reg byte, data byte) {
+func load(memory []byte, r []byte, reg byte, data byte) {
     if data < 1 || data > 7 {
         fmt.Println("Load: Byte index is out of bounds!\n")
         os.Exit(1)
@@ -74,13 +74,13 @@ func load(memory *[]byte, r *[]byte, reg byte, data byte) {
         os.Exit(1)
     }
 
-    (*r)[reg] = (*memory)[data]
+    r[reg] = memory[data]
 }
 
 /**
  * Store the value at given address (`reg`) into the location of address (`data`).
  */
-func store(memory *[]byte, r *[]byte, reg byte, data byte) {
+func store(memory []byte, r []byte, reg byte, data byte) {
     if data < 0 || data > 7 {
         fmt.Println("Store: Byte index is out of bounds!\n")
         os.Exit(1)
@@ -89,29 +89,29 @@ func store(memory *[]byte, r *[]byte, reg byte, data byte) {
         os.Exit(1)
     }
 
-    (*memory)[data] = (*r)[reg]
+    memory[data] = r[reg]
 }
 
 /**
  * Add the two reg values and store the result in r1
  */
-func add(memory *[]byte, r *[]byte, r1 byte, r2 byte) {
+func add(memory []byte, r []byte, r1 byte, r2 byte) {
     if (r1 != 1 && r1 != 2) || (r2 != 1 && r2 != 2) {
         fmt.Println("Add: Invalid register index!\n")
         os.Exit(1)
     }
 
-    (*r)[r1] = (*r)[r1] + (*r)[r2]
+    r[r1] = r[r1] + r[r2]
 }
 
 /**
  * Subtract the two reg values and store the result in r1
  */
-func sub(memory *[]byte, r *[]byte, r1 byte, r2 byte) {
+func sub(memory []byte, r []byte, r1 byte, r2 byte) {
     if (r1 != 1 && r1 != 2) || (r2 != 1 && r2 != 2) {
         fmt.Println("Sub: Invalid register index!\n")
         os.Exit(1)
     }
 
-    (*r)[r1] = (*r)[r1] - (*r)[r2]
+    r[r1] = r[r1] - r[r2]
 }
