@@ -30,4 +30,13 @@ Here are my answers and notes regarding the `pagecount.c` program.
 - We calculate two more variables, do some printing and finish.
 
 **If you change the optimization level, is the function substantially different?**
+
 At `-O`:
+- Using registers `r12-14` instead.
+- Pushing to the stack 5 times.
+- Subtracts 64 (not 144) from the stack pointer.
+- The array creation and population are unchanged.
+- The `ignore` is initialized and calculated later on (after out call to `clock`).
+- `.L3` contains all of the logic and expressions for our first for loop. All condensed into one branch.
+- Our second loop and all the `pagecount` logic is inlined in `.L4`. It never branches to `pagecount` although this function does exist.o
+- In general, more inlining and a lot less instructions. Not jumping around as much.
