@@ -31,7 +31,7 @@ Here are my answers and notes regarding the `pagecount.c` program.
 
 **If you change the optimization level, is the function substantially different?**
 
-At `-O`:
+At `-O1`:
 - Using registers `r12-14` instead.
 - Pushing to the stack 5 times.
 - Subtracts 64 (not 144) from the stack pointer.
@@ -40,3 +40,15 @@ At `-O`:
 - `.L3` contains all of the logic and expressions for our first for loop. All condensed into one branch.
 - Our second loop and all the `pagecount` logic is inlined in `.L4`. It never branches to `pagecount` although this function does exist.o
 - In general, more inlining and a lot less instructions. Not jumping around as much.
+
+At `-O2`:
+- Only subtracts 72 from the stack pointer.
+- The logic for populating our two arrays is very different (a lot less instructions).
+- Is there branch prediction happening here? Line 17.
+- Some more inlining here too.
+
+- Optimization level `-O3` looks very similar to `-O2`.
+
+**Can you determine which of the generated instructions may be slow?**
+- `mul / imull` requires 11 clock cycles.
+- `div` can requires 17+ clock cycles.
