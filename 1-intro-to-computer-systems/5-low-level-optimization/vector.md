@@ -8,3 +8,5 @@ Here are some optimizations from CS:APP chapter 5:
 - 5.4 Eliminate loop inefficiencies.
 - 5.5 Reduce procedure calls.
 - 5.6 Eliminating unneeded memory references.
+- 5.7 Understanding modern processors.
+- 5.8 Loop unrolling.
