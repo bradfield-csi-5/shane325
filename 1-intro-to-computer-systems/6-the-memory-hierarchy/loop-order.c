@@ -1,9 +1,9 @@
-/*
-Two different ways to loop over an array of arrays.
-
-Spotted at:
-http://stackoverflow.com/questions/9936132/why-does-the-order-of-the-loops-affect-performance-when-iterating-over-a-2d-arra
-*/
+/**
+ * Two different ways to loop over an array of arrays.
+ *
+ * Spotted at:
+ * http://stackoverflow.com/questions/9936132/why-does-the-order-of-the-loops-affect-performance-when-iterating-over-a-2d-arra
+ */
 
 void option_one() {
   int i, j;
@@ -26,7 +26,7 @@ void option_two() {
 }
 
 int main() {
-  option_one();
-  // option_two();
+  // option_one();
+  option_two();
   return 0;
 }
