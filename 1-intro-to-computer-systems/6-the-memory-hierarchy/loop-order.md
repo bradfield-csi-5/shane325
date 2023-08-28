@@ -16,4 +16,3 @@ Here are my notes and answers regarding the `loop-order.c` program.
 
 **What do you notice about the cache utilization of each program? How much better is one than the other? Does this match your expectations?**
 - Running `cg_annotate` on each program I see the following results:
-	-  
