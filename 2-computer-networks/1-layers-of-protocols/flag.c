@@ -1,23 +1,32 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <stdint.h>
 
-int get_packet_length(char header[]);
-
-int main(int argc, char *argv[]) {
-    if (argc != 2) {
-        printf("Incorrect number of cmd line args.\n");
-        return 1;
-    }
-
+int main() {
     FILE *fp;
-    if ((fp = fopen(argv[1], "rb")) == NULL) {
-        printf("Can't open %s.\n", argv[1]);
+    if ((fp = fopen("net.cap", "rb")) == NULL) {
+        printf("Can't open net.cap.\n");
         return 1;
     } else {
         // Parse the global header
         char global_header[24];
         fread(global_header, sizeof(global_header), 1, fp);
+
+        uint32_t magic_number, snapshot_length;
+        uint32_t major_version, minor_version;
+
+        memcpy(&magic_number, global_header, 4);
+        memcpy(&major_version, global_header + 4, 2);
+        memcpy(&minor_version, global_header + 6, 2);
+        memcpy(&snapshot_length, global_header + 16, 4);
+
+        printf("### GLOBAL HEADER ###\n");
+        printf("Magic number:       %d\n", magic_number);
+        printf("Major version:      %d\n", major_version);
+        printf("Minor version:      %d\n", minor_version);
+        printf("Snapshot length:    %d\n", snapshot_length);
+        printf("-------------------------\n");
 
         // Our fp should be at the start of the packets
         // Each packet has a 16 byte header and variable length data
@@ -32,8 +41,9 @@ int main(int argc, char *argv[]) {
             memcpy(&untrunc_packet_length, packet_header + 12, 4);
 
             if (packet_length != untrunc_packet_length) {
-               printf("Packet len and untrunc len so not match.\n"); 
+               printf("Packet len and untrunc len do not match.\n"); 
             }
+
 
             // Parse the packet data
             char packet_data[packet_length];
@@ -43,9 +53,8 @@ int main(int argc, char *argv[]) {
                 packet_count++;
             }
 
-            // printf("packet length: %d\n", packet_length);
         }
-        printf("packet count: %d\n", packet_count);
+        printf("Total packet count: %d\n", packet_count);
 
 
         /**
@@ -60,10 +69,4 @@ int main(int argc, char *argv[]) {
 
     fclose(fp);
     return 0;
-}
-
-int get_packet_length(char header[]) {
-    int len;
-    memcpy(&len, header + 8, 4);
-    return len;
 }
