@@ -2,15 +2,16 @@
 #include <stdlib.h>
 #include <pthread.h>
 
+#define THREAD_COUNT 10
+
 struct ArgStruct {
-  double  **c;
   double  **a;
   double  **b;
-  // int     a_cols;
-  // int     b_cols;
-  int     k;
-  int     j;
-  int     i;
+  double  **c;
+  int     a_rows;
+  int     a_cols;
+  int     b_cols;
+  int     id;
 };
 
 /*
@@ -25,90 +26,70 @@ void matrix_multiply(double **C, double **A, double **B, int a_rows, int a_cols,
     for (int j = 0; j < b_cols; j++) {
       C[i][j] = 0;
       for (int k = 0; k < a_cols; k++) {
-        printf("%d %d %d\n", i, j, k);
         C[i][j] += A[i][k] * B[k][j];
       }
     }
   }
 }
 
-/**
-void *inner_multiply(void *arguments) {
-  struct arg_struct *args = arguments;
-  for (int j = 0; j < args->b_cols; j++) {
-    args->c[args->i][j] = 0;
-    for (int k = 0; k < args->a_cols; k++) {
-      args->c[args->i][j] += args->a[args->i][k] * args->b[k][j];
-    }
-  }
-}
-*/
-
-void *final_multiply(void *arguments) {
+void *matrix_multiply_p(void *args) {
   double **a, **b, **c;
-  int k, j, i;
-  // struct ArgStruct * my_args = (struct Args *) (arguments);
+  int a_rows, a_cols, b_cols, id;
   struct ArgStruct * my_args;
-  my_args = (struct ArgStruct*) (arguments);
+  my_args = (struct ArgStruct*) (args);
   a = my_args->a;
   b = my_args->b;
   c = my_args->c;
-  k = my_args->k;
-  j = my_args->j;
-  i = my_args->i;
+  a_rows = my_args->a_rows;
+  a_cols = my_args->a_cols;
+  b_cols = my_args->b_cols;
+  id = my_args->id;
 
-  printf("Parr: %d %d %d\n", i, j, k);
-  c[i][j] += a[i][k] * b[k][j];
+  int l = id * (a_rows / THREAD_COUNT);
+  int r = (id + 1) * (a_rows / THREAD_COUNT) -1;
+
+  for (int i = l; i <= r; i++) {
+    for (int j = 0; j < b_cols; j++) {
+      c[i][j] = 0;
+      for (int k = 0; k < a_cols; k++) {
+        c[i][j] += a[i][k] * b[k][j];
+      }
+    }
+  }
+  free(args);
   return NULL;
 }
 
 void parallel_matrix_multiply(double **c, double **a, double **b, int a_rows,
     int a_cols, int b_cols) {
-  // pthread_t tid;
-  // struct arg_struct args;
-  // args.c = c;
-  // args.a = a;
-  // args.b = b;
-  // args.a_cols = a_cols;
-  // args.b_cols = b_cols;
-  // for (int i = 0; i < a_rows; i++) {
-  //   args.i = i;
 
-  //   pthread_create(&tid, NULL, inner_multiply, (void *)&args);
-  // }
+  int interval = a_rows / THREAD_COUNT;
+  if (interval == 0) {
+    interval = 1;
+  } else if (interval > THREAD_COUNT) {
+    interval = THREAD_COUNT;
+  }
+  printf("Interval: %d\n", interval);
+  pthread_t threads[THREAD_COUNT];
+  int t;
 
-  printf("\n\n\nStarting parallel:\n");
-  pthread_t threads[a_cols];
-  void * retvals[a_cols];
-  // void * thread_arg_v;
+  for (t = 0; t < interval; t++) {
+    struct ArgStruct* args = malloc(sizeof(struct ArgStruct));
+    args->a = a;
+    args->b = b;
+    args->c = c;
+    args->a_rows = a_rows;
+    args->a_cols = a_cols;
+    args->b_cols = b_cols;
+    args->id = t;
+    if (pthread_create(&threads[t], NULL, &matrix_multiply_p, args) != 0) {
+      fprintf(stderr, "Error: Cannot create thread # %d \n", t);
+    }
+  }
 
-  struct ArgStruct args;
-  struct ArgStruct * args_address;
-  args.a = a;
-  args.b = b;
-  args.c = c;
-  for (int i = 0; i < a_rows; i++) {
-    args.i = i;
-    for (int j = 0; j < b_cols; j++) {
-      args.j = j;
-      c[i][j] = 0;
-      int k;
-      for (k = 0; k < a_cols; k++) {
-        printf("Real: %d %d %d\n", i, j, k);
-        args.k = k;
-        args_address = &args;
-        // thread_arg_v = (void *) 0;
-        if (pthread_create(&threads[k], NULL, final_multiply, &args_address) != 0) {
-          fprintf(stderr, "Error: Cannot create thread # %d\n", k);
-          break;
-        }
-      }
-
-      for (int i = 0; i < k; i++) {
-        if (pthread_join(threads[i], &retvals[i]) != 0) {
-          fprintf(stderr, "Error: Cannot join thread # %d\n", i);
-        }
-      }
+  for (t = 0; t < interval; t++) {
+    if (pthread_join(threads[t], NULL) != 0) {
+      fprintf(stderr, "Error: Cannot join thread # %d\n", t);
     }
   }
 }
