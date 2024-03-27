@@ -4,6 +4,8 @@ import (
     "bytes"
     "errors"
     "fmt"
+    "sort"
+    "strconv"
 )
 
 type Database struct {
@@ -46,6 +48,7 @@ func (db *Database) Put(key, value []byte) error {
 
     // If we get here, the key does not exist yet
     db.values = append(db.values, Value{key, value})
+    db.Order()
     return nil
 }
 
@@ -83,6 +86,15 @@ func (db *Database) Print() {
     for i := 0; i < len(db.values); i++ {
         fmt.Printf("key: %s, value: %s.\n", db.values[i].key, db.values[i].value)
     }
+}
+
+func (db *Database) Order() {
+    sort.Slice(db.values, func(i, j int) bool {
+        // return string(db.values[i].key) < string(db.values[j].key)
+        key1, _ := strconv.Atoi(string(db.values[i].key))
+        key2, _ := strconv.Atoi(string(db.values[j].key))
+        return key1 < key2
+    })
 }
 
 func newDatabase() DB {

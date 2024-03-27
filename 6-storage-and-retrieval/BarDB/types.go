@@ -21,6 +21,9 @@ type DB interface {
 
     // Print prints the key value pairs
     Print()
+
+    // Order the key value pairs by key
+    Order()
 }
 
 type Iterator interface {

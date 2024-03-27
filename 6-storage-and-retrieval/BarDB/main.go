@@ -50,4 +50,10 @@ func main() {
     for scan.Next() {
         fmt.Printf("key: %s, value: %s.\n", scan.Key(), scan.Value())
     }
+
+    barDB.Put([]byte("140"), []byte("Finding Nemo"))
+    barDB.Put([]byte("99"), []byte("Shrek"))
+    barDB.Put([]byte("75"), []byte("Gladiator"))
+
+    barDB.Print()
 }
