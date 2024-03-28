@@ -2,8 +2,11 @@ package main
 
 import (
     "bytes"
+    "encoding/csv"
     "errors"
     "fmt"
+    "io"
+    "os"
     "sort"
     "strconv"
 )
@@ -86,6 +89,38 @@ func (db *Database) Print() {
     for i := 0; i < len(db.values); i++ {
         fmt.Printf("key: %s, value: %s.\n", db.values[i].key, db.values[i].value)
     }
+}
+
+func (db *Database) Seed(file string) error {
+    // Open file so that we can grab some test data
+    f, err := os.Open(file)
+    if err != nil {
+        return errors.New("Failed to open file.")
+    }
+    // Close the file at the end of the program
+    defer f.Close()
+    // Read csv values using csv.Reader
+    csvReader := csv.NewReader(f)
+    // Skip the csv header row
+    _, err = csvReader.Read()
+    if (err != nil) {
+        return errors.New("Failed to read file.")
+    }
+
+    // Populate our new database with movie data
+    for {
+        record, err := csvReader.Read()
+        if err == io.EOF {
+            break
+        }
+
+        err = db.Put([]byte(record[0]), []byte(record[1]))
+        if err != nil {
+            return errors.New("Failed to put record.")
+        }
+    }
+
+    return nil
 }
 
 func (db *Database) Order() {

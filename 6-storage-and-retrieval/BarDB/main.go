@@ -1,45 +1,20 @@
 package main
 
 import (
-    "encoding/csv"
     "fmt"
-    "io"
     "log"
-    "os"
 )
 
 func main() {
-
-    // Open file so that we can grab some test data
-    f, err := os.Open("./movies.csv")
-    if err != nil {
-        log.Fatal(err)
-    }
-    // Close the file at the end of the program
-    defer f.Close()
-    // Read csv values using csv.Reader
-    csvReader := csv.NewReader(f)
-    // Skip the csv header row
-    _, err = csvReader.Read()
-    if (err != nil) {
-        log.Fatal(err)
-    }
-
     // Instantiate a new database
     barDB := newDatabase()
 
-    // Populate our new database with movie data
-    for {
-        movieRecord, err := csvReader.Read()
-        if err == io.EOF {
-            break
-        }
-
-        err = barDB.Put([]byte(movieRecord[0]), []byte(movieRecord[1]))
-        if err != nil {
-            log.Fatal(err)
-        }
+    // Seed the database
+    err := barDB.Seed("movies.csv")
+    if err != nil {
+        log.Fatal(err)
     }
+
 
     barDB.Put([]byte("52"), []byte("Adams Family"))
     barDB.Delete([]byte("24"))
@@ -55,5 +30,5 @@ func main() {
     barDB.Put([]byte("99"), []byte("Shrek"))
     barDB.Put([]byte("75"), []byte("Gladiator"))
 
-    barDB.Print()
+    // barDB.Print()
 }

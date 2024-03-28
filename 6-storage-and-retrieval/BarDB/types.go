@@ -24,6 +24,9 @@ type DB interface {
 
     // Order the key value pairs by key
     Order()
+
+    // Seed the database with test data
+    Seed(file string) (err error)
 }
 
 type Iterator interface {
